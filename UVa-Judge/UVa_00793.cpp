@@ -12,7 +12,7 @@ typedef unsigned long int uint32;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-const int MAX = 1000000;
+const int MAX = 10005;
 
 int p[MAX], sz[MAX];
 
@@ -47,10 +47,41 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	// COMPLEXIDADE
-	// BUILD - O(n)
-	// FIND - O(log(n))
-	// UNE - O(log(n))
+	int t; cin >> t;
 
+	string s;
+	getline(cin, s);
+
+	while (t--) {
+		int n; cin >> n;
+		getline(cin, s);
+		
+		buildDSU();
+		int ans = 0, anu=0;
+
+		getline(cin, s);
+		do {
+			char query; int x,y;
+			stringstream ss(s);
+			ss >> query >> x >> y;
+
+			if (query == 'c') 
+				unionDSU (x,y);
+			else {
+				int a = findDSU(x);
+				int b = findDSU(y);
+
+				a == b ? ans++ : anu++;
+			} 
+				
+
+			getline(cin, s);
+		} while(!s.empty());
+
+		cout << ans <<","<< anu << endl;
+
+		if(t) cout << endl;
+	}
+	
 	return 0;
 }
