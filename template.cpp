@@ -3,7 +3,7 @@
 using namespace std;
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF (int)0x3f3f3f3f
 #define MP make_pair
 #define PB push_back
 
