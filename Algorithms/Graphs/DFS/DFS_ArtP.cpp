@@ -54,6 +54,8 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
+	cin >> n >> m;
+
 	//build graph
 	for (int i = 0; i < m; i++){
 		int x, y, s; cin >> x >> y;
@@ -61,8 +63,15 @@ int main(){
 		graph[y].push_back(x);
 	}
 
-	dfsAP(1, -1); //Find articulation points
-	
+	for (int i = 0; i < n; i++){
+		num[i] = -1;
+		low[i] = -1;
+		visited[i] = 0;
+	}
+
+	for (int i = 0; i < n; i++){
+		dfsAP(i, -1); //Find articulation points
+	}
 
 	return 0;
 }
