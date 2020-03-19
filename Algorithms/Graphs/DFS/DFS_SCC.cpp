@@ -1,5 +1,4 @@
- 
-#include <bits/stdc++.h>
+ #include <bits/stdc++.h>
 
 using namespace std;
 
@@ -14,6 +13,8 @@ typedef long long int int64;
 typedef unsigned long long int  uint64;
 
 const int MAX = 10100;
+
+//Get graph's strongly connected components in O(V+E)
 
 int timer = 0, scc;
 int n, m;
@@ -75,15 +76,11 @@ int main(){
 		}
 	}
 
-	scc = 0;
-
 	for (int i = 1; i <= n; i++){
 		if (!num[i]){
 			DFS_SCC(i);
 		}
 	}	
-
-	cout << scc << endl;
 	
 	return 0;
 }
