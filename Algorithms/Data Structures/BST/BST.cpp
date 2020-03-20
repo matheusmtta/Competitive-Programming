@@ -33,6 +33,49 @@ struct node* insert(struct node* node, int x){
 	return node;
 }
 
+struct node *get_max(struct node *v){
+	if (v == nullptr)
+		return nullptr;
+	else if (v->right == nullptr)
+		return v;
+	else
+		return get_max(v->right);
+}
+
+struct node *get_min(struct node *v){
+	if (v == nullptr)
+		return nullptr;
+	else if (v->left == nullptr)
+		return v;
+	else 
+		return get_min(v->left);
+}
+
+struct node *del(struct node *v, int x){
+	if (v == nullptr) return nullptr;
+	if (x < v->value)
+		v->left = del(v->left, x);
+	else if (x > v->value)
+		v->right = del(v->right, x);
+	else if (v->left && v->right) {
+		struct node *tmp = get_max(v->left);
+
+		v->value = tmp->value;
+		v->left = del(v->left, tmp->value);
+	}
+	else {
+		struct node *tmp = v;
+		if (v->left == nullptr)
+			v = v->right;
+		else if (v->right == nullptr)
+			v = v->left;
+
+		delete tmp;
+	}
+	return v;
+}
+
+
 bool search(struct node* node, int x){
 	if (node == nullptr) return false;
 	if (node->value == x) return true;
