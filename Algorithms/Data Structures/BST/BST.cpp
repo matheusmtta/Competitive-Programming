@@ -33,6 +33,16 @@ struct node* insert(struct node* node, int x){
 	return node;
 }
 
+bool search(struct node* node, int x){
+	if (node == nullptr) return false;
+	if (node->value == x) return true;
+	if (x < node->value && node->left != nullptr)
+		return search(node->left, x);
+	else if (x > node->value && node->right != nullptr)
+		return search(node->right, x);
+	return false;
+}
+
 void get_infix(struct node *v){
 	if (v != nullptr){
 		get_infix(v->left);
