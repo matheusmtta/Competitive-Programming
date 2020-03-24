@@ -15,7 +15,7 @@ typedef unsigned long long int  uint64;
 //Recursive Segment tree
 //Build O(n)
 //Query, sum of [l, r] elements in O(logn)
-//Update, change the value of [l, r] elements in O(logn) 
+//Update, change the value of the eement at index 'i' in O(logn) 
 
 const int MAXN = 1000;
 
@@ -90,7 +90,6 @@ int main(){
 		int idx, v; cin >> idx >> v;
 		update(1, 0, n-1, idx, v);
 
-		query(1, 0, n-1, idx, v);
 	}
 
 	return 0;
