@@ -17,7 +17,23 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	
+	int t; cin >> t;
+
+	while (t--){
+		int64 a, b; cin >> a >> b;
+		if (a%b == 0) {cout << 0 << endl; continue;}
+		else {
+			int64 ans = 0;
+			if (b > a) {cout << b-a << endl; continue;}
+			if (a%b != 0){
+				int64 aux = a/b;
+				aux += 1;
+				aux *= b;
+				ans = aux-a;
+			}
+			cout << ans << endl;
+		}
+	}
 
 	return 0;
 }
