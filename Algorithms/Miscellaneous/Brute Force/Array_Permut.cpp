@@ -1,8 +1,10 @@
+ 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-//repetitions allowed 
+//Get all permutations of a given array
+//Time complexity: O(n!)
 
 vector <string> ans;
 
