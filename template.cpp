@@ -5,8 +5,8 @@ using namespace std;
 #define MOD 1000000007
 #define INF (int)0x3f3f3f3f
 #define LINF (long long)0x3f3f3f3f3f3f3f3fll
-#define MP make_pair
-#define PB push_back
+#define mp make_pair
+#define pb push_back
 
 typedef long int int32;
 typedef unsigned long int uint32;
