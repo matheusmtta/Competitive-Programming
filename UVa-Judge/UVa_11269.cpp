@@ -65,12 +65,12 @@ int main(){
 				idx[i] = aux1[i];
 		}
 
-		int ans, lst;
-		ans = lst = 0;
+		int ans, tmp;
+		ans = tmp = 0;
 
 		for (int i = 0; i < n; i++){
-			lst += a[idx[i]];
-			ans = max(ans, lst) + b[idx[i]];
+			tmp += a[idx[i]];
+			ans = max(ans, tmp) + b[idx[i]];
 		}
 
 		cout << ans << endl;
