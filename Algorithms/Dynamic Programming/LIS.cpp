@@ -28,6 +28,8 @@ int pos = 0, n = 0;
 vector <int> arr;
 
 int LISQuadratic(){
+	int ans = -1;
+	
 	for (int i = 0; i < n; i++){
 		for (int j = 0; j < i; j++){
 			if (arr[j] < arr[i] && dist[i] < dist[j]+1){
@@ -35,17 +37,12 @@ int LISQuadratic(){
 				parent[i] = j;
 			}
 		}
-	}
-
-	int ans = -1;
-	
-	for (int i = 0; i < n; i++){
 		if (dist[i] > ans){
 			ans = dist[i];
 			pos = i;
 		}
 	}
-
+	
 	return ans;
 }
 
