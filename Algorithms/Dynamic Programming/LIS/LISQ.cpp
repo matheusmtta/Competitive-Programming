@@ -18,7 +18,7 @@ typedef unsigned long long int  uint64;
 //Longest Increasing Subsequence 
 //LIS({-7, 10, 9, 2, 3, 8, 8, 1}) = {-7, 2, 3, 8}
 
-//O(n^2) Approach
+//O(n^2) 
 vector <int> dist(MAX, 1);
 vector <int> parent(MAX, -1);
 vector <int> subseq;

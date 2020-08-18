@@ -11,6 +11,12 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
+//Given a integer sequence, finds the
+//Longest Increasing Subsequence 
+//LIS({-7, 10, 9, 2, 3, 8, 8, 1}) = {-7, 2, 3, 8}
+
+//O(nlogn) 
+
 int n;
 vector <int> arr;
 vector <int> ans;
