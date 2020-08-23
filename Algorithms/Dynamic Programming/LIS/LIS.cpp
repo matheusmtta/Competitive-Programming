@@ -20,6 +20,8 @@ typedef unsigned long long int  uint64;
 int n;
 vector <int> arr;
 vector <int> ans;
+vector <int> parent(n+1, -1);
+int recover_end;
 
 int upper_bound(int x){
 	int l = 0, r = n, ub, idx;
@@ -47,15 +49,28 @@ int LIS(){
 
 	for (int i = 0; i < n; i++){
 		int pos = upper_bound(arr[i]);
-		if (ans[pos-1] < arr[i] && arr[i] < ans[pos])
+		if (ans[pos-1] < arr[i] && arr[i] < ans[pos]){
 			ans[pos] = arr[i];
+			parent[i] = pos;
+ 			recover_end = max(recover_end, pos);
+		}
 	}
 
-	int rsp = n;
+	int rsp = n, idx = n;
 
 	while (ans[rsp] == INF){
 		rsp--;
 	}
+
+	vector <int> recover_lis;
+ 
+ 	while (idx--){
+ 		if (parent[idx] == recover_end){
+ 			recover_lis.push_back(arr[idx]);
+ 			recover_end--;
+ 		}
+ 	}
+ 	reverse(recover_lis.begin(), recover_lis.end());
 
 	return rsp;
 }
@@ -66,6 +81,7 @@ int main(){
 
 	cin >> n;
 	arr.resize(n);
+	parent.resize(n+1);
 
 	for (auto &x: arr)
 		cin >> x;
