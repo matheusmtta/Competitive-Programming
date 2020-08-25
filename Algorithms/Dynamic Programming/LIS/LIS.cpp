@@ -23,7 +23,7 @@ vector <int> ans;
 vector <int> parent(n+1, -1);
 int recover_end;
 
-int upper_bound(int x){
+int lower_bound(int x){
 	int l = 0, r = n, ub, idx;
 
 	while (l <= r){
@@ -48,7 +48,7 @@ int LIS(){
 	ans[0] = -INF;
 
 	for (int i = 0; i < n; i++){
-		int pos = upper_bound(arr[i]);
+		int pos = lower_bound(arr[i]);
 		if (ans[pos-1] < arr[i] && arr[i] < ans[pos]){
 			ans[pos] = arr[i];
 			parent[i] = pos;
