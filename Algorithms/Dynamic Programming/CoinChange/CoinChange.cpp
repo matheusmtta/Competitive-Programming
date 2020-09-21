@@ -33,10 +33,9 @@ int dp_minimum(){
 
 	for (int i = 1; i <= objective; i++){
 		memo[i] = INF;
-		for (int j = 0; j < n; j++){
+		for (int j = 0; j < n; j++)
 			if (basis[j] <= i)
 				memo[i] = min(memo[i], 1 + memo[i - basis[j]]);
-		}
 	}
 
 	return memo[objective];
