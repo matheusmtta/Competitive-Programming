@@ -17,13 +17,35 @@ string str;
 vector <int> pos;
 vector <int> equivC;
 vector <pair<char, int>> arr;
-vector <pair<pair<int,int>, int>> cmp;
+
 
 //Computes the suffix array of a given string
-//in O(nlog^2n) :3
+//in O(nlogn) :D
+
+void radixSort(){
+	vector <int> count(n);
+	for (int x : equivC)
+		count[x]++;
+
+	vector <int> aux(n);
+	vector <int> idx(n);
+
+	idx[0] = 0;
+
+	for (int i = 1; i < n; i++)
+		idx[i] = idx[i-1] + count[i-1];
+
+	for (auto x : pos){
+		int j = equivC[x];
+		aux[idx[j]] = x;
+		idx[j]++;
+	}
+
+	pos = aux;
+}
 
 void init(){
-	pos.resize(n); arr.resize(n); equivC.resize(n); arr.resize(n);
+	pos.resize(n); arr.resize(n); equivC.resize(n);
 
 	for (int i = 0; i < n; i++)
 		arr[i] = {str[i], i};
@@ -44,27 +66,27 @@ void init(){
 }
 
 void build(){
-	cmp.resize(n);
-	
 	int k = 0;
 
 	while ((1 << k) < n){
 		for (int i = 0; i < n; i++)
-			cmp[i] = {{equivC[i], equivC[(i + (1 << k)) % n]}, i};
+			pos[i] = (pos[i] - (1 << k) + n)%n;
 
-		sort(cmp.begin(), cmp.end());
+		radixSort();
 
-		for (int i = 0; i < n; i++)
-			pos[i] = cmp[i].second;
+		vector <int> aux(n);
 
-		equivC[pos[0]] = 0;
+		aux[pos[0]] = 0;
 		for (int i = 1; i < n; i++){
-			if (cmp[i].first == cmp[i-1].first)
-				equivC[pos[i]] = equivC[pos[i-1]];
+			pair <int, int> prev = {equivC[pos[i - 1]], equivC[(pos[i - 1] + (1 << k))%n]};
+			pair <int, int> nxt = {equivC[pos[i]], equivC[(pos[i] + (1 << k))%n]};
+			if (prev == nxt)
+				aux[pos[i]] = aux[pos[i-1]];
 			else
-				equivC[pos[i]] = equivC[pos[i-1]] + 1;
+				aux[pos[i]] = aux[pos[i-1]] + 1;
 		}
 
+		equivC = aux;
 		k++;
 	}
 }
