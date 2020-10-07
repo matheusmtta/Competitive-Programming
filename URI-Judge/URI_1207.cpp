@@ -97,17 +97,34 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int n, m;
-    int s, t; cin >> s >> t;
-    
-    Dinic graph(n, s, t);
+    int N, M;
+    while (cin >> N >> M){
+        Dinic graph(N+M+2, N+M+1, 0);
 
-    for (int i = 0; i < m; i++){
-        int c; cin >> c;
-        graph.add_edge(i, 0, c);
+        for (int i = 1; i <= N; i++){
+            int c; cin >> c;
+            graph.add_edge(i, 0, c);
+        }
+
+        vector <int> sz(M);
+
+        for (auto &x : sz)
+            cin >> x;
+
+        int sum = 0;
+
+        for (int i = 0; i < M; i++){
+            int k; cin >> k;
+            sum += k;
+            for (int j = 0; j < sz[i]; j++){
+                int v; cin >> v;
+                graph.add_edge(i+N+1, v, INF);
+            }
+            graph.add_edge(N+M+1, i+N+1, k);
+        }
+
+        cout << abs(sum-graph.flow()) << endl;
     }
-
-    cout << graph.flow() << endl;
 
     return 0;
 }
