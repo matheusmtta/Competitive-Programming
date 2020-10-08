@@ -36,7 +36,6 @@ int MaxRangeSum1D(){
  		}
  	}
 
- 	cout << l << " " << r << endl;
  	return ans;
 }
 
@@ -44,7 +43,7 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	cout << MaxRangeSum1D() << endl;
+	MaxRangeSum1D();
 
 	return 0;
 }
