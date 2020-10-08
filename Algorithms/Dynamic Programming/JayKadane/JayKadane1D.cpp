@@ -16,21 +16,27 @@ typedef unsigned long long int  uint64;
 //Maximum 1D Range Sum O(n)
 int MaxRangeSum1D(){
  	int n; cin >> n;
- 	vector <int> arr;
+ 	vector <int> arr(n);
 
- 	int ans = -INF, sum = 0;
+ 	int ans = -INF, sum = 0, tmp = 0, l = 0, r = 0;
 
- 	for (int i = 0; i < n; i++){
- 		int x; cin >> x;
- 		arr.push_back(x);
- 	}
+ 	for (int &x : arr)
+ 		cin >> x;
 
  	for (int i = 0; i < n; i++){
  		sum += arr[i];
- 		ans = max(sum, ans);
- 		if (sum < 0) sum = 0;
+ 		if (sum < 0){ 
+ 			sum = 0;
+ 			tmp = i + 1;
+ 		}
+ 		else if (sum > ans) {
+ 			ans = max(sum, ans);
+ 			l = tmp;
+ 			r = i;
+ 		}
  	}
 
+ 	cout << l << " " << r << endl;
  	return ans;
 }
 
@@ -38,7 +44,7 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	MaxRangeSum2D();
+	cout << MaxRangeSum1D() << endl;
 
 	return 0;
 }
