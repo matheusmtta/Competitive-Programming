@@ -96,22 +96,37 @@ struct Dinic {
     }
 };
 
-
 int main(){ 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int n, m;
-    int s, t; cin >> s >> t;
+    int n, m, k, q = 1, flag = 0;
+
+    while (cin >> n >> m >> k){
+        int s = n+m, t = n+m+1;
+        Dinic graph(n+m+2);
+        
+        for (int i = 0; i < n; i++){
+            int cp; cin >> cp;
+            graph.add_edge(m+i, t, cp);
+        }
+
+        for (int i = 0; i < m; i++)
+            graph.add_edge(s, i, 1);
+
+        for (int i = 0; i < k; i++){
+            int x, y;
+            cin >> x >> y;
+            x--; y--;
+            graph.add_edge(y, m+x, 1);
+        }
     
-    Dinic graph(n);
+        cout << "Instancia " << q << endl;
+        cout << graph.flow(s, t) << endl;
+        cout << endl;
 
-    for (int i = 0; i < m; i++){
-        int c; cin >> c;
-        graph.add_edge(i, 0, c);
-    }
-
-    cout << graph.flow(s, t) << endl;
+        q++;
+    }   
 
     return 0;
 }
