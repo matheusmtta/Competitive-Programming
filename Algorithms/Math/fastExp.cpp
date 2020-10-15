@@ -13,14 +13,29 @@ typedef unsigned long long int  uint64;
 
 //compute a^b in O(logn) :3
 
-int64 fastExp(int64 a, int64 b){
-	if (b == 0)
-		return 1;
-	int64 ans = fastExp(a, b/2);
+int64 fastExpRec(int64 a, int64 b){
+	if (b == 0) return 1;
+	
+	int64 tmp = fastExpRec(a, b/2);
+	int64 ans = tmp * tmp; 
+	
 	if (b & 1)
 		return ans * ans * a;
-	else
-		return ans * ans; 
+
+	return ans;
+}
+
+int64 fastExpIt(int64 a, int64 b){
+	int64 ans = 1;
+
+	while (b > 0){
+		if (b & 1)
+			ans = ans*a;
+		a = a * a;
+		b = b >> 1;
+	}
+
+	return ans;
 }
 
 int main(){	
@@ -29,7 +44,7 @@ int main(){
 
 	int64 a, b; cin >> a >> b;
 
-	cout << fastExp(a, b) << endl;
+	cout << fastExpRec(a, b) << endl;
 
 	return 0;
 }
