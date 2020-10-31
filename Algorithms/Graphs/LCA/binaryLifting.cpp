@@ -69,6 +69,24 @@ struct LCA {
 		int _lca = lca(a, b);
 		return d[a] + d[b] - (2*d[_lca]);
 	}
+
+	int getkth(int a, int kth){
+		for (int i = k; i >= 0; i--)
+			if (kth & (1 << i))
+				a = up[a][i];
+		return a;
+	}
+
+	int kthAncestral(int a, int b, int cnt){
+		int da = height[a], db = height[b], dc = height[lca(a, b)];
+
+		int dx = da - dc + 1;
+		if (cnt <= dx) return getkth(a, cnt-1);
+		else {
+			cnt = db - dc - (cnt - dx);
+			return getkth(b, cnt);
+		}
+	}
 };
 
 int main(){	
@@ -76,12 +94,15 @@ int main(){
 	cin.tie(NULL);
 
 	
-	int n, a, b, w; cin >> n;
+	int n, a, b, w, k; cin >> n;
 		
 	LCA tree(n, 0);
 	tree.add_edge(a, b, w);
 	tree.add_edge(b, a, w);
 	tree.dfs();
+	tree.lca(a, b);
+	tree.dist(a, b);
+	tree.kthAncestral(a, b, k);
 
 	return 0;
 }
