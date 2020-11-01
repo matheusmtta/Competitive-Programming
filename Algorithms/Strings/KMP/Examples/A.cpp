@@ -9,21 +9,30 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-//Find all occurrences o pattern t in a string s
-//in O(|s|+|t|)
+//given a misteryous string s "**a*..b**"
+//and string t1 and t2, we must choose the
+//'*' characters that give us a string s
+//which oc(t1)-oc(t2) is maximum, and oc()
+//defines the number of occurrences of ci
+//in s.
+//https://codeforces.com/contest/1163/problem/D
+
+string s, t1, t2;
+int memo[1010][60][60];
+int check[1010][60][60];
+vector <vector<int>> A;
+vector <vector<int>> B;
 
 struct KMP {
 	string t;
 	vector <int> pi;
 	vector <vector<int>> aut;
- 
+
 	KMP(string t) : t(t+"$") {
 		pi.resize(t.size()+1, 0);
 		aut.resize(t.size()+1, vector<int>(27, 0));
-		//buildAut();
-		prefix_function();
+		build();
 	}
- 	
 
 	void prefix_function(){
 		for (int i = 1, j = 0; i < t.size(); i++){
@@ -34,10 +43,10 @@ struct KMP {
 			pi[i] = j;
 		}
 	}
- 
-	void buildAut(){
+
+	void build(){
 		prefix_function();
- 
+
 		for (int i = 0; i < t.size(); i++){
 			for (int c = 0; c < 26; c++){
 				if (i > 0 && 'a'+c != t[i])
@@ -48,18 +57,6 @@ struct KMP {
 		}
 	}
 
-	vector <int> matchAut(string s){
-		vector <int> pos;
-		int idx = 0;
-		for (int i = 0; i < s.size(); i++){
-			idx = aut[idx][s[i] - 'a'];
-			if (idx+1 == t.size())
-				pos.push_back(i-idx+1);
-		}
-
-		return pos;
-	}
- 	
 	vector <int> match(string s){
 		vector <int> pos;
 		for (int i = 0, j = 0; i < s.size(); i++){
@@ -67,22 +64,49 @@ struct KMP {
 				j = pi[j-1];
 			if (s[i] == t[j])
 				j++;
-			if (j+1 == t.size())
+			if (j == t.size())
 				pos.push_back(i-j+1);
 		}
 		return pos;
 	}
 };
 
+int dp(int i, int j, int k){
+	int ans = (t1.size() == j ? 1 : 0) - (t2.size() == k ? 1 : 0);
+	if (i == s.size())
+		return ans;
+
+	int &curr = memo[i][j][k];
+
+	if (check[i][j][k])
+		return curr;
+
+	check[i][j][k] = 1;
+
+	if (s[i] == '*'){
+		curr = -INF;
+		for (int v = 0; v < 26; v++)
+			curr = max(curr, ans + dp(i+1, A[j][v], B[k][v]));
+	}
+	else 
+		curr = ans + dp(i+1, A[j][s[i]-'a'], B[k][s[i]-'a']);
+
+	return curr;
+}
+
 int main(){	
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	string s, t; 
-	cin >> s >> t;
-	KMP kmp(t);
+	cin >> s >> t1 >> t2;
 
-	vector <int> ans = kmp.match(s);
+	A = KMP(t1).aut;
+	B = KMP(t2).aut;
+
+	memset(memo, 0, sizeof memo);
+	memset(check, 0, sizeof check);
+
+	cout << dp(0, 0, 0) << endl;
 
 	return 0;
 }
