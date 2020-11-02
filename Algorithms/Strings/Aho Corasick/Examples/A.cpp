@@ -9,8 +9,8 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-map <string, int> mp;
-const int alp = 60;
+//https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1620
+//Find which patterns t occur in s
 
 int get_id(char ch){
 	if (ch >= 'A' && ch <= 'Z')
@@ -19,6 +19,11 @@ int get_id(char ch){
 		return ch - 'a';
 	return -1;
 }
+
+const int MAX = 1010;
+const int alp = 60;
+
+map <string, int> mp;
 
 struct ahoCorasick {
 	struct node {
@@ -87,10 +92,32 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	string s, t;
-	ahoCorasick ac;
-	ac.addString(t);
-	ac.query(s);
+	int t; cin >> t;
+	while (t--){
+		string s; cin >> s;
+		int q; cin >> q;
+		
+		ahoCorasick ac;
+
+		vector <string> arr;
+
+		for (int i = 0; i < q; i++){
+			string t; cin >> t;
+			ac.addString(t);
+			arr.push_back(t);
+			mp[t] = 0;
+		}
+
+		ac.query(s);
+		
+		for (int i = 0; i < q; i++){
+			if (mp[arr[i]])
+				cout << "y" << endl;
+			else
+				cout << "n" << endl;
+		}
+		mp.clear();
+	}
 
 	return 0;
 }
