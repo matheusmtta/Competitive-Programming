@@ -9,7 +9,6 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-map <string, int> mp;
 const int alp = 60;
 
 int get_id(char ch){
@@ -71,15 +70,19 @@ struct ahoCorasick {
 			else
 				trie[v].go[chId] = v == 0 ? 0 : go(getLink(v), c);
 		}
-		if (trie[trie[v].go[chId]].leaf) mp[trie[trie[v].go[chId]].word] = 1;
+		
 		return trie[v].go[chId];
 	}
 
 	void query(string s){
 		int curr = 0;
 
-		for (int i = 0; i < s.size(); i++)
+		for (int i = 0; i < s.size(); i++){
 			curr = go(curr, s[i]);
+			if (trie[curr].leaf){
+				//do something, word from the set found
+			}
+		}
 	}
 };
 
