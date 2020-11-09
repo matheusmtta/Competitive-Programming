@@ -12,7 +12,7 @@ typedef unsigned long long int  uint64;
 //Recursive Segment tree
 //Build O(n)
 //Query, sum of [l, r] elements in O(logn)
-//Update, change the value of the eement at index 'i' in O(logn) 
+//Update, change the value of the eement at index 'i' in O( logn) 
 
 template <typename T> 
 struct segTree {
