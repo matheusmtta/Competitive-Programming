@@ -9,19 +9,20 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-//Recursive Segment tree
+//Recursive Segment tree with lazy propagation
 //Build O(n)
 //Query, sum of [l, r] elements in O(logn)
-//Update, change the value of the eement at index 'i' in O(logn) 
+//Update, change the value of the eement at range [l, r] in O(logn) 
 
 template <typename T> 
 struct segTree {
 	int n;
 	vector <T> arr;
-	vector <T> segtr;
+	vector <T> segtr, lazy;
 
 	segTree(vector<T> &a, int n) : n(n), arr(a) {
 		segtr.assign(4*n, 0);
+		lazy.assign(4*n, 0);
 		build(1, 0, n-1);
 	}  
 
@@ -38,20 +39,36 @@ struct segTree {
 		}
 	}
 
-	void update(int idx, T val) { update(1, 0, n-1, idx, val); }
+	void prop(int v, int l, int r){
+		if (!lazy[v]) return;
+		
+		int m = (l+r)/2, nxt = v << 1;
+
+		segtr[nxt] += lazy[v]*(m - l + 1);
+		segtr[nxt+1] += lazy[v]*(r - (m+1) + 1);
+		lazy[nxt] += lazy[v], lazy[nxt+1] += lazy[v];
+		lazy[v] = 0;
+	}
+
+	void update(int lx, int rx, T val) { T dummy = update(1, 0, n-1, lx, rx, val); }
 	T query(int lx, int rx) { return query(1, 0, n-1, lx, rx); }
 
-	void update(int v, int l, int r, int idx, T val){
-		if (l == r)
-			segtr[v] = val;
-		else {
-			int m = (l + r)/2, nxt = v << 1;
-			
-			if (idx <= m) update(nxt, l, m, idx, val);
-			else update(nxt + 1, m+1, r, idx, val);
-			
-			segtr[v] = segtr[nxt] + segtr[nxt + 1];
+	T update(int v, int l, int r, int lx, int rx, T val){
+		if (r < lx || l > rx) return segtr[v];
+		if (l >= lx && r <= rx) {
+			segtr[v] += val*(r-l+1);
+			lazy[v] += val;
+			return segtr[v];
 		}
+		
+		int m = (l + r)/2, nxt = v << 1;
+
+		prop(v, l, r);
+
+		T s1 = update(nxt, l, m, lx, rx, val);
+		T s2 = update(nxt+1, m+1, r, lx, rx, val);
+
+		return segtr[v] = s1 + s2;
 	}
 
 	T query(int v, int l, int r, int lx, int rx){
@@ -60,6 +77,8 @@ struct segTree {
 			return segtr[v];
 		
 		int m = (l + r)/2, nxt = v << 1;
+
+		prop(v, l, r);
 
 		T s1 = query(nxt, l, m, lx, rx);
 		T s2 = query(nxt+1, m+1, r, lx, rx);
@@ -72,7 +91,7 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	int n, m; cin >> n >> m;
+	int n;
 	vector <int64> a(n);
 
 	for (int64 &x : a)
@@ -80,8 +99,10 @@ int main(){
 
 	segTree <int64> st(a, n);
 
-	//st.query(l, r);
-	//st.update(idx, val); 
+	int l, r, val;
+	st.update(l, r, val); //add val to the segment [l, r]
+	st.query(l, r); //get sum at the segment [l, r]
 
 	return 0;
 }
+	
