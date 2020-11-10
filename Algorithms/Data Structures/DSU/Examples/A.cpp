@@ -12,10 +12,6 @@ typedef unsigned long int uint32;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-// BUILD - O(n)
-// FIND - O(log(n))
-// UNE - O(log(n))
-
 struct DSU{
 	int n;
 	vector <int> p, sz;
@@ -52,12 +48,17 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	int n;
+	int n, m; cin >> n >> m;
 	DSU dsu(n);
 
-	int a, b;
-	dsu.une(a, b);
-	dsu.find(a);
+	while (m--){
+		string cmd; cin >> cmd;
+		int a, b; cin >> a >> b;
+		if (cmd == "union")
+			dsu.une(a, b);
+		else
+			dsu.find(a) == dsu.find(b) ? cout << "YES" << endl : cout << "NO" << endl;
+	}	
 
 	return 0;
 }
