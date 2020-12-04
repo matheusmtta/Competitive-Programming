@@ -3,7 +3,7 @@
 using namespace std;
 
 #define MOD 1000000007
-#define end "\n"
+#define endl "\n"
 #define f first
 #define s second
 #define INF (int)0x3f3f3f3f
@@ -20,5 +20,3 @@ int main(){
 
 	return 0;
 }
-
-
