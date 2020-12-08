@@ -12,8 +12,14 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
+//AddString    O(n*alp)
+//erase        O(n)
+//find         O(n)
+//countPrefix  O(n)
+
 struct Trie {
-	const static int alp = 10;
+	//alphabet size
+	const static int alp = 26;
 	char basis;
 
 	int getID(char ch){
