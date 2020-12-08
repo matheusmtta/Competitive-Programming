@@ -28,10 +28,10 @@ struct Trie {
 		}
 	};
 
-	vector <int> pre, end;
+	vector <int> pre;
 	vector <Node> trie;
 
-	Trie(char basis = 'a') : trie(1), pre(1), end(1), basis(basis) {};
+	Trie(char basis = 'a') : trie(1), pre(1), basis(basis) {};
 
 	void addString(string s){
 		int v = 0;
