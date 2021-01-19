@@ -11,38 +11,6 @@ using namespace std;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
-int memo[1000][1000];
-
-void recover(string &a, string &b){
-	int i = (int)a.size(), j = (int)b.size(), op = 1;
-
-	while (i && j){
-		if (a[i-1] == b[j-1])
-			j--, i--;
-		else if (memo[i][j] == memo[i-1][j-1] + 1){
-			cout << op++ << " Replace " << i << ", " << b[j-1] << endl;
-			i--, j--;
-		}
-		else if (memo[i][j] == memo[i-1][j] + 1){
-			cout << op++ << " Delete " << i << endl;
-			i--;
-		}
-		else if (memo[i][j] == memo[i][j-1] + 1){
-			cout << op++ << " Insert " << i << ", " << b[j-1] << endl;
-			j--;
-		}
-	}
-
-	while (i > 0){
-		cout << op++ << " Delete " << i << endl;
-		i--;
-	}
-
-	while (j > 0){
-		cout << op++ << " Insert " << j << ", " << b[j-1] << endl;
-		j--;
-	}
-}
 
 int main(){	
 	ios_base::sync_with_stdio(false);
@@ -51,6 +19,7 @@ int main(){
 	string a, b; cin >> a >> b;
 	
 	int n = (int)a.size(), m = (int)b.size();
+	int memo[n+1][m+1];
 	memset(memo, 0, sizeof memo);
 
 	for (int i = 0; i <= n; i++)
