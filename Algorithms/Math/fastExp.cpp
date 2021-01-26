@@ -20,7 +20,7 @@ int64 fastExpRec(int64 a, int64 b){
 	int64 ans = tmp * tmp; 
 	
 	if (b & 1)
-		return ans * ans * a;
+		return ans * a;
 
 	return ans;
 }
