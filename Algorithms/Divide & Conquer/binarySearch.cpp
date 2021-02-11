@@ -13,6 +13,7 @@ typedef unsigned long int uint32;
 typedef long long int int64;
 typedef unsigned long long int  uint64;
 
+//Search for N in a array
 //Time complexity: O(logN)
 
 int N;
@@ -21,53 +22,28 @@ int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	cin >> N;
+	int n; cin >> n;
+	vector <int> arr(n);
 
-	vector <int> arr;
+	for (int &x : arr)
+		cin >> x;
 
-	int ans, ub, lb;
+	int ans, k; cin >> k;
 
-	//Search for N in a array
+	int l = 0, r = arr.size()-1, flag = 0;
 
-	int l = 0, r = arr.size()-1;
-
-	while (l <= r){
+	while (l <= r && !flag){
 		int mid = l+r/2;
-		if (arr[mid] == N){
-			ans = mid;
-			break;
+		if (arr[mid] == k){
+			ans = mid, flag = true;
 		}
-		else if (arr[mid] < N) 
+		else if (arr[mid] < k) 
 			l = mid + 1;
 		else
 			r = mid - 1;
 	}
 
-	l = 0, r = arr.size()-1;
-
-	//Lower Bound (greatest element stricly smaller or equal than N)
-	while (l <= r){
-		int mid = l+r/2;
-		if (arr[mid] > N) 
-			r = mid-1;
-		else {
-			lb = mid;
-			l = mid + 1;
-		}
-	}
-
-	l = 0, r = arr.size()-1;
-
-	//Upper Bound (smallest element strictly greater or equal than N)
-	while (l <= r){
-		int mid = l+r/2;
-		if (arr[mid] < N)
-			l = mid + 1;
-		else {
-			ub = mid;
-			r = mid - 1;
-		}
-	}
+	flag ? cout << ans << endl : cout << "DOES NOT EXIST" << endl;
 
 	return 0;
 }
