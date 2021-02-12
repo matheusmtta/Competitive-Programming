@@ -28,14 +28,30 @@ int main(){
 	int memo[n+1][m+1];
 	memset(memo, 0, sizeof memo);
 
-	for (int i = n-1; i >= 0; i--){
-		for (int j = m-1; j >= 0; j--){
-			if (a[i] == b[j])
-				memo[i][j] = 1 + memo[i+1][j+1];
-			else memo[i][j] = max({memo[i+1][j], memo[i][j+1], memo[i][j]});
+	for (int i = 0; i <= n; i++){
+		for (int j = 0; j <= m; j++){
+			if (i == 0 || j == 0) memo[i][j] = 0;
+			else if (s[i-1] == t[j-1])
+				memo[i][j] = memo[i-1][j-1] + 1;
+			else
+				memo[i][j] = max(memo[i-1][j], memo[i][j-1]);
 		}
 	}
 
+	//recover answer
+	// string ans;
+	// int i = n, j = m;
+	// while (i > 0 && j > 0){
+	// 	if (s[i-1] == t[j-1])
+	// 		ans += s[i-1], i--, j--;
+	// 	else if (memo[i-1][j] > memo[i][j-1])
+	// 		i--;
+	// 	else
+	// 		j--;
+	// }
+	//reverse(ans.begin(), ans.end());
+	//cout << ans << endl;
+	////////////////////////////////////////////
 	//O(m) auxiliar memory
 	// vector <int> m1(m+1, 0), m2(m+1, 0);
 	
